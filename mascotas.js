@@ -11,6 +11,11 @@ let mascotas = [
         tipo:"Gato",
         nombre:"Manchas",
         dueño:"Ale"
+    },
+    {
+        tipo:"Perro",
+        nombre:"Manchitas",
+        dueño:"Julieta"
     }
 ];
 
@@ -22,17 +27,14 @@ function listarMascotas(){
         <td>${mascota.dueño}</td>
         <td>
         <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-primary editar" data-indice= ${index} onclick="editar(this)"><i class="far fa-edit"></i></button>
-            <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+            <button type="button" class="btn btn-primary editar"data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="far fa-edit"></i></button>
+            <button type="button" class="btn btn-danger eliminar"><i class="far fa-trash-alt"></i></button>
         </div>
         </td>
     </tr>`).join("");
     listaMascotas.innerHTML = htmlMascotas;
-    /*Array.from(document.getElementsByClassName("editar")).forEach((botonEditar)=>botonEditar.onclick=editar);*/
-}
-
-function editar(evento){
-    console.dir(evento);
+    Array.from(document.getElementsByClassName("editar")).forEach((botonEditar, index)=>botonEditar.onclick=editar(index));
+    Array.from(document.getElementsByClassName("eliminar")).forEach((botonEliminar, index)=>botonEliminar.onclick=eliminar(index));
 }
 
 function enviarDatos(evento){
@@ -42,8 +44,43 @@ function enviarDatos(evento){
         nombre: nombre.value,
         dueño: dueño.value
     };
-    mascotas.push(datos);
+    let accion = btnGuardar.innerHTML;
+    switch(accion){
+        case "Editar":
+            mascotas[indice.value]=datos;
+        break;
+        default:
+            mascotas.push(datos);
+         break;
+    }
     listarMascotas();
+    resetModal();
+}
+
+function editar(index){
+    return function cuandoClickeo(){
+        btnGuardar.innerHTML = "Editar"
+        let mascota = mascotas[index];
+        nombre.value = mascota.nombre;
+        dueño.value = mascota.dueño;
+        tipo.value = mascota.tipo;
+        indice.value = index;
+    }
+}
+
+function resetModal(){
+    nombre.value = "";
+    dueño.value = "";
+    tipo.value = "";
+    indice.value = "";
+    btnGuardar.innerHTML="Guardar"
+}
+
+function eliminar(index){
+    return function clickEnEliminar(){
+        mascotas = mascotas.filter((mascota, indiceMascota) => indiceMascota !== index);
+        listarMascotas();
+    }
 }
 
 listarMascotas();
