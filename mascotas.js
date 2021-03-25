@@ -44,22 +44,24 @@ function enviarDatos(evento){
         nombre: nombre.value,
         dueño: dueño.value
     };
-    let accion = btnGuardar.innerHTML;
+    let accion = btnGuardar.value;
+    console.log("enviar datos", accion);
     switch(accion){
         case "Editar":
             mascotas[indice.value]=datos;
-        break;
+            break;
         default:
             mascotas.push(datos);
-         break;
+            break;
     }
     listarMascotas();
     resetModal();
 }
 
+
 function editar(index){
     return function cuandoClickeo(){
-        btnGuardar.innerHTML = "Editar"
+        btnGuardar.value = "Editar"
         let mascota = mascotas[index];
         nombre.value = mascota.nombre;
         dueño.value = mascota.dueño;
@@ -73,7 +75,7 @@ function resetModal(){
     dueño.value = "";
     tipo.value = "";
     indice.value = "";
-    btnGuardar.innerHTML="Guardar"
+    btnGuardar.value="Guardar"
 }
 
 function eliminar(index){
