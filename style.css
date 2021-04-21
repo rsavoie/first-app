@@ -8,3 +8,8 @@
 .input-group{
     padding: 10px 1px;
 }
+
+.modal-content{
+    width: 116%;
+    position: center;
+}
